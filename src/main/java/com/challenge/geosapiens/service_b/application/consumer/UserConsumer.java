@@ -1,9 +1,9 @@
-package com.challenge.geosapiens.service_b.consumer;
+package com.challenge.geosapiens.service_b.application.consumer;
 
-import com.challenge.geosapiens.service_b.config.RabbitMQConfig;
+import com.challenge.geosapiens.service_b.application.config.RabbitMQConfig;
 import com.challenge.geosapiens.service_b.dto.UserDTO;
-import com.challenge.geosapiens.service_b.entity.User;
-import com.challenge.geosapiens.service_b.repository.UserRepository;
+import com.challenge.geosapiens.service_b.domain.entity.User;
+import com.challenge.geosapiens.service_b.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

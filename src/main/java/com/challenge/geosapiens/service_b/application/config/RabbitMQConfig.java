@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.config;
+package com.challenge.geosapiens.service_b.application.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

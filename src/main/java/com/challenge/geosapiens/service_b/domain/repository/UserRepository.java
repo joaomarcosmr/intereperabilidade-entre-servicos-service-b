@@ -1,6 +1,6 @@
-package com.challenge.geosapiens.service_b.repository;
+package com.challenge.geosapiens.service_b.domain.repository;
 
-import com.challenge.geosapiens.service_b.entity.User;
+import com.challenge.geosapiens.service_b.domain.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.entity;
+package com.challenge.geosapiens.service_b.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "delivery_persons")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class DeliveryPerson {
 
     @Id
     private Long id;
