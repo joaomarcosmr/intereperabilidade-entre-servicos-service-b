@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  service_b_bd:
+    image: postgres:15-alpine
+    container_name: service_b_bd
+    environment:
+      POSTGRES_DB: service_b_bd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - service_b_data:/var/lib/postgresql/data
+    networks:
+      - geosapiens-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - geosapiens-network
+
+volumes:
+  service_b_data:
+
+networks:
+  geosapiens-network:
+    driver: bridge
