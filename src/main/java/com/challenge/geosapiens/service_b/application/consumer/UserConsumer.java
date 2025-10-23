@@ -1,9 +1,10 @@
 package com.challenge.geosapiens.service_b.application.consumer;
 
 import com.challenge.geosapiens.service_b.application.config.RabbitMQConfig;
-import com.challenge.geosapiens.service_b.dto.UserDTO;
-import com.challenge.geosapiens.service_b.domain.entity.User;
-import com.challenge.geosapiens.service_b.domain.repository.UserRepository;
+import com.challenge.geosapiens.service_b.application.usecase.user.CreateUserUseCase;
+import com.challenge.geosapiens.service_b.application.usecase.user.DeleteUserUseCase;
+import com.challenge.geosapiens.service_b.application.usecase.user.UpdateUserUseCase;
+import com.challenge.geosapiens.service_b.infrastructure.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,20 +15,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class UserConsumer {
 
-    private final UserRepository userRepository;
+    private final CreateUserUseCase createUserUseCase;
+    private final UpdateUserUseCase updateUserUseCase;
+    private final DeleteUserUseCase deleteUserUseCase;
 
     @RabbitListener(queues = RabbitMQConfig.USER_CREATE_QUEUE)
     public void consumeUserCreate(UserDTO userDTO) {
         log.info("Received CREATE user from queue: {}", userDTO);
 
         try {
-            User user = new User();
-            user.setId(userDTO.getId());
-            user.setName(userDTO.getName());
-            user.setEmail(userDTO.getEmail());
-
-            User savedUser = userRepository.save(user);
-            log.info("User created successfully with ID: {}", savedUser.getId());
+            createUserUseCase.execute(userDTO);
         } catch (Exception e) {
             log.error("Error creating user: {}", e.getMessage(), e);
             throw e;
@@ -39,14 +36,7 @@ public class UserConsumer {
         log.info("Received UPDATE user from queue: {}", userDTO);
 
         try {
-            User user = userRepository.findById(userDTO.getId())
-                    .orElseThrow(() -> new RuntimeException("User not found with ID: " + userDTO.getId()));
-
-            user.setName(userDTO.getName());
-            user.setEmail(userDTO.getEmail());
-
-            User updatedUser = userRepository.save(user);
-            log.info("User updated successfully with ID: {}", updatedUser.getId());
+            updateUserUseCase.execute(userDTO);
         } catch (Exception e) {
             log.error("Error updating user: {}", e.getMessage(), e);
             throw e;
@@ -58,8 +48,7 @@ public class UserConsumer {
         log.info("Received DELETE user from queue: {}", userDTO);
 
         try {
-            userRepository.deleteById(userDTO.getId());
-            log.info("User deleted successfully with ID: {}", userDTO.getId());
+            deleteUserUseCase.execute(userDTO.getId());
         } catch (Exception e) {
             log.error("Error deleting user: {}", e.getMessage(), e);
             throw e;

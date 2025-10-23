@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.dto;
+package com.challenge.geosapiens.service_b.infrastructure.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

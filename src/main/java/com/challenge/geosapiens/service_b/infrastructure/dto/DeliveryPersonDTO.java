@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.dto;
+package com.challenge.geosapiens.service_b.infrastructure.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,5 +12,5 @@ import java.io.Serializable;
 public class DeliveryPersonDTO implements Serializable {
     private Long id;
     private String name;
-    private String email;
+    private String phone;
 }

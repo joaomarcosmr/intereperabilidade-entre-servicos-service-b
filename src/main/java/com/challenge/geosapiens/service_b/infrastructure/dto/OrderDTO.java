@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.dto;
+package com.challenge.geosapiens.service_b.infrastructure.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +14,6 @@ public class OrderDTO implements Serializable {
     private String description;
     private Double value;
     private Long userId;
-    private Long deliveryPersonId;
+    private String deliveryPersonName;
+    private String deliveryPersonPhone;
 }

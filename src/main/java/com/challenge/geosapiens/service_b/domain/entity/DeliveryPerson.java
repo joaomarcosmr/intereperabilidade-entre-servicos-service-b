@@ -21,7 +21,7 @@ public class DeliveryPerson {
     private String name;
 
     @Column(nullable = false)
-    private String email;
+    private String phone;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -32,6 +32,7 @@ public class DeliveryPerson {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate

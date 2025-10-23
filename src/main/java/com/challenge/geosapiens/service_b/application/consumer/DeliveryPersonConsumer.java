@@ -1,9 +1,10 @@
 package com.challenge.geosapiens.service_b.application.consumer;
 
 import com.challenge.geosapiens.service_b.application.config.RabbitMQConfig;
-import com.challenge.geosapiens.service_b.dto.DeliveryPersonDTO;
-import com.challenge.geosapiens.service_b.domain.entity.DeliveryPerson;
-import com.challenge.geosapiens.service_b.domain.repository.DeliveryPersonRepository;
+import com.challenge.geosapiens.service_b.application.usecase.deliveryperson.CreateDeliveryPersonUseCase;
+import com.challenge.geosapiens.service_b.application.usecase.deliveryperson.DeleteDeliveryPersonUseCase;
+import com.challenge.geosapiens.service_b.application.usecase.deliveryperson.UpdateDeliveryPersonUseCase;
+import com.challenge.geosapiens.service_b.infrastructure.dto.DeliveryPersonDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -14,20 +15,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DeliveryPersonConsumer {
 
-    private final DeliveryPersonRepository deliveryPersonRepository;
+    private final CreateDeliveryPersonUseCase createDeliveryPersonUseCase;
+    private final UpdateDeliveryPersonUseCase updateDeliveryPersonUseCase;
+    private final DeleteDeliveryPersonUseCase deleteDeliveryPersonUseCase;
 
     @RabbitListener(queues = RabbitMQConfig.DELIVERY_PERSON_CREATE_QUEUE)
     public void consumeDeliveryPersonCreate(DeliveryPersonDTO deliveryPersonDTO) {
         log.info("Received CREATE delivery person from queue: {}", deliveryPersonDTO);
 
         try {
-            DeliveryPerson deliveryPerson = new DeliveryPerson();
-            deliveryPerson.setId(deliveryPersonDTO.getId());
-            deliveryPerson.setName(deliveryPersonDTO.getName());
-            deliveryPerson.setEmail(deliveryPersonDTO.getEmail());
-
-            DeliveryPerson savedDeliveryPerson = deliveryPersonRepository.save(deliveryPerson);
-            log.info("DeliveryPerson created successfully with ID: {}", savedDeliveryPerson.getId());
+            createDeliveryPersonUseCase.execute(deliveryPersonDTO);
         } catch (Exception e) {
             log.error("Error creating delivery person: {}", e.getMessage(), e);
             throw e;
@@ -39,14 +36,7 @@ public class DeliveryPersonConsumer {
         log.info("Received UPDATE delivery person from queue: {}", deliveryPersonDTO);
 
         try {
-            DeliveryPerson deliveryPerson = deliveryPersonRepository.findById(deliveryPersonDTO.getId())
-                    .orElseThrow(() -> new RuntimeException("DeliveryPerson not found with ID: " + deliveryPersonDTO.getId()));
-
-            deliveryPerson.setName(deliveryPersonDTO.getName());
-            deliveryPerson.setEmail(deliveryPersonDTO.getEmail());
-
-            DeliveryPerson updatedDeliveryPerson = deliveryPersonRepository.save(deliveryPerson);
-            log.info("DeliveryPerson updated successfully with ID: {}", updatedDeliveryPerson.getId());
+            updateDeliveryPersonUseCase.execute(deliveryPersonDTO);
         } catch (Exception e) {
             log.error("Error updating delivery person: {}", e.getMessage(), e);
             throw e;
@@ -58,8 +48,7 @@ public class DeliveryPersonConsumer {
         log.info("Received DELETE delivery person from queue: {}", deliveryPersonDTO);
 
         try {
-            deliveryPersonRepository.deleteById(deliveryPersonDTO.getId());
-            log.info("DeliveryPerson deleted successfully with ID: {}", deliveryPersonDTO.getId());
+            deleteDeliveryPersonUseCase.execute(deliveryPersonDTO.getId());
         } catch (Exception e) {
             log.error("Error deleting delivery person: {}", e.getMessage(), e);
             throw e;
