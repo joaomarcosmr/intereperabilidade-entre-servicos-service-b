@@ -1,8 +1,8 @@
 HELP.md
-target/
+target/*
+# Manter apenas o JAR final versionado para Docker
+!target/service-b-0.0.1-SNAPSHOT.jar
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
 ### STS ###
 .apt_generated

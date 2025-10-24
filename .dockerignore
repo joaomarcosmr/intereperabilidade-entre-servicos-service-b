@@ -1,7 +1,7 @@
 # Build artifacts
-target/
+# target/ - Mantido para o Dockerfile
 *.class
-*.jar
+# *.jar - Mantido para o Dockerfile
 *.war
 *.ear
 
@@ -43,4 +43,5 @@ logs/
 *.swp
 *~
 nul
+
 
