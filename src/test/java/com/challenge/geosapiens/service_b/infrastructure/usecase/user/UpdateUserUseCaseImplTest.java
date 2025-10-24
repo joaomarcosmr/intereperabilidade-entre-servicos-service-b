@@ -4,6 +4,7 @@ import com.challenge.geosapiens.service_b.application.exception.NotFoundExceptio
 import com.challenge.geosapiens.service_b.domain.entity.User;
 import com.challenge.geosapiens.service_b.domain.repository.UserRepository;
 import com.challenge.geosapiens.service_b.infrastructure.dto.UserDTO;
+import com.challenge.geosapiens.service_b.infrastructure.mapper.UserMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,6 +24,9 @@ class UpdateUserUseCaseImplTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserMapper userMapper;
+
     @InjectMocks
     private UpdateUserUseCaseImpl updateUserUseCase;
 
@@ -35,13 +39,22 @@ class UpdateUserUseCaseImplTest {
         existingUser.setName("joao");
         existingUser.setEmail("joao@example.com");
 
+        User updatedUser = new User();
+        updatedUser.setId(userId);
+        updatedUser.setName("joao marcos");
+        updatedUser.setEmail("joao.marcos@example.com");
+
         when(userRepository.findById(userId)).thenReturn(Optional.of(existingUser));
-        when(userRepository.save(any(User.class))).thenReturn(existingUser);
+        when(userMapper.toDomain(userDTO)).thenReturn(updatedUser);
+        when(userRepository.save(any(User.class))).thenReturn(updatedUser);
 
         User result = updateUserUseCase.execute(userDTO);
 
         assertNotNull(result);
+        assertEquals("joao marcos", result.getName());
+        assertEquals("joao.marcos@example.com", result.getEmail());
         verify(userRepository).findById(userId);
+        verify(userMapper).toDomain(userDTO);
         verify(userRepository).save(any(User.class));
     }
 
