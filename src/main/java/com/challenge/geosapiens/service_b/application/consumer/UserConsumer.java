@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -46,11 +48,11 @@ public class UserConsumer {
     }
 
     @RabbitListener(queues = RabbitMQConfig.USER_DELETE_QUEUE)
-    public void consumeUserDelete(UserDTO userDTO) {
-        log.info("[UserConsumer] Received DELETE user from queue: {}", userDTO);
+    public void consumeUserDelete(UUID id) {
+        log.info("[UserConsumer] Received DELETE user from queue: {}", id);
 
         try {
-            deleteUserUseCase.execute(userDTO.getId());
+            deleteUserUseCase.execute(id);
             log.info("[UserConsumer] DELETE user processed successfully");
         } catch (Exception e) {
             log.error("[UserConsumer] Error deleting user: {}", e.getMessage(), e);

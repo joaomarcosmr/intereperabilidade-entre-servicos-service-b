@@ -77,11 +77,10 @@ class UserConsumerTest {
     @Test
     void shouldConsumeUserDeleteSuccessfully() {
         UUID userId = UUID.randomUUID();
-        UserDTO userDTO = new UserDTO(userId, "joao marcos", "joao.marcos@example.com");
 
         doNothing().when(deleteUserUseCase).execute(userId);
 
-        userConsumer.consumeUserDelete(userDTO);
+        userConsumer.consumeUserDelete(userId);
 
         verify(deleteUserUseCase).execute(userId);
     }

@@ -80,12 +80,10 @@ class OrderConsumerTest {
     @Test
     void shouldConsumeOrderDeleteSuccessfully() {
         UUID orderId = UUID.randomUUID();
-        UUID userId = UUID.randomUUID();
-        OrderDTO orderDTO = new OrderDTO(orderId, "Pizza Margherita", 45.90, userId, "joao marcos", "11999999999");
 
         doNothing().when(deleteOrderUseCase).execute(orderId);
 
-        orderConsumer.consumeOrderDelete(orderDTO);
+        orderConsumer.consumeOrderDelete(orderId);
 
         verify(deleteOrderUseCase).execute(orderId);
     }

@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -46,11 +48,11 @@ public class OrderConsumer {
     }
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_DELETE_QUEUE)
-    public void consumeOrderDelete(OrderDTO orderDTO) {
-        log.info("[OrderConsumer] Received DELETE order from queue: {}", orderDTO);
+    public void consumeOrderDelete(UUID id) {
+        log.info("[OrderConsumer] Received DELETE order from queue: {}", id);
 
         try {
-            deleteOrderUseCase.execute(orderDTO.getId());
+            deleteOrderUseCase.execute(id);
             log.info("[OrderConsumer] DELETE order processed successfully");
         } catch (Exception e) {
             log.error("[OrderConsumer] Error deleting order: {}", e.getMessage(), e);
