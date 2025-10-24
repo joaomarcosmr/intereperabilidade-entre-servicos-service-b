@@ -1,7 +1,7 @@
 package com.challenge.geosapiens.service_b.application.controller;
 
-import com.challenge.geosapiens.service_b.domain.entity.Order;
-import com.challenge.geosapiens.service_b.domain.usecase.order.ListOrdersUseCase;
+import com.challenge.geosapiens.service_b.domain.entity.User;
+import com.challenge.geosapiens.service_b.domain.usecase.user.ListUsersUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,28 +18,29 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 @Slf4j
-@Tag(name = "Orders", description = "Endpoints for order management")
-public class OrderController {
+@Tag(name = "Users", description = "Endpoints for user management")
+public class UserController {
 
-    private final ListOrdersUseCase listOrdersUseCase;
+    private final ListUsersUseCase listUsersUseCase;
 
     @Operation(
-            summary = "List all orders",
-            description = "Returns a list of all orders registered in the system"
+            summary = "List all users",
+            description = "Returns a list of all users registered in the system"
     )
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "200",
-                    description = "Order list retrieved successfully"
+                    description = "User list retrieved successfully"
             )
     })
     @GetMapping
-    public ResponseEntity<List<Order>> getOrders() {
-        log.info("[OrderController] Listing all orders");
-        List<Order> orders = listOrdersUseCase.execute();
-        return ResponseEntity.ok(orders);
+    public ResponseEntity<List<User>> getUsers() {
+        log.info("[UserController] Listing all users");
+        List<User> users = listUsersUseCase.execute();
+        return ResponseEntity.ok(users);
     }
 }
+
