@@ -1,4 +1,5 @@
 services:
+  # PostgreSQL Database - Service B
   service_b_bd:
     image: postgres:15-alpine
     container_name: service_b_bd
@@ -10,12 +11,39 @@ services:
       - "5433:5432"
     volumes:
       - service_b_data:/var/lib/postgresql/data
-    networks:
-      - geosapiens-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Service B Application
+  service-b-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: service_b_app
+    environment:
+      # Database Configuration
+      SPRING_DATASOURCE_URL: jdbc:postgresql://service_b_bd:5432/service_b_bd
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      
+      # RabbitMQ Configuration
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: guest
+      SPRING_RABBITMQ_PASSWORD: guest
+      
+      # Application Configuration
+      SERVER_PORT: 8081
+      SPRING_PROFILES_ACTIVE: docker
+    ports:
+      - "8081:8081"
+    depends_on:
+      service_b_bd:
+        condition: service_healthy
+    restart: unless-stopped
 
 volumes:
   service_b_data:
-
-networks:
-  geosapiens-network:
-    driver: bridge
