@@ -12,10 +12,4 @@ public interface OrderMapper {
     @Mapping(source = "userId", target = "user.id")
     Order toEntity(OrderDTO orderDTO);
 
-    @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEntityFromDto(OrderDTO orderDTO, @MappingTarget Order order);
-
-    @Mapping(source = "user.id", target = "userId")
-    OrderDTO toDTO(Order order);
 }

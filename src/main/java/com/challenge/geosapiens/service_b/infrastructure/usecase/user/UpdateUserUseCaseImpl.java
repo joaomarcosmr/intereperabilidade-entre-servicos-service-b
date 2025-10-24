@@ -1,5 +1,6 @@
 package com.challenge.geosapiens.service_b.infrastructure.usecase.user;
 
+import com.challenge.geosapiens.service_b.application.exception.NotFoundException;
 import com.challenge.geosapiens.service_b.domain.entity.User;
 import com.challenge.geosapiens.service_b.domain.repository.UserRepository;
 import com.challenge.geosapiens.service_b.domain.usecase.user.UpdateUserUseCase;
@@ -21,18 +22,18 @@ public class UpdateUserUseCaseImpl implements UpdateUserUseCase {
     @Override
     @Transactional
     public User execute(UserDTO userDTO) {
-        log.debug("Updating user with ID: {}", userDTO.getId());
+        log.info("[UpdateUserUseCaseImpl] Starting user update with ID: {}", userDTO.getId());
 
         User user = userRepository.findById(userDTO.getId())
-                .orElseThrow(() -> new RuntimeException("User not found with ID: " + userDTO.getId()));
+                .orElseThrow(() -> {
+                    log.error("[UpdateUserUseCaseImpl] User not found with ID: {}", userDTO.getId());
+                    return new NotFoundException("User not found with ID: " + userDTO.getId());
+                });
 
-        user.setName(userDTO.getName());
-        user.setEmail(userDTO.getEmail());
-        user.setUpdatedAt(LocalDateTime.now());
-
+        userDTO.setId(user.getId());
         User updatedUser = userRepository.save(user);
 
-        log.info("User updated successfully with ID: {}", updatedUser.getId());
+        log.info("[UpdateUserUseCaseImpl] User updated successfully with ID: {}", updatedUser.getId());
         return updatedUser;
     }
 }

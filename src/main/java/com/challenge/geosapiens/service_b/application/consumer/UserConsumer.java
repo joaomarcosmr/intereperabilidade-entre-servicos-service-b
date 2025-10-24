@@ -21,36 +21,39 @@ public class UserConsumer {
 
     @RabbitListener(queues = RabbitMQConfig.USER_CREATE_QUEUE)
     public void consumeUserCreate(UserDTO userDTO) {
-        log.info("Received CREATE user from queue: {}", userDTO);
+        log.info("[UserConsumer] Received CREATE user from queue: {}", userDTO);
 
         try {
             createUserUseCase.execute(userDTO);
+            log.info("[UserConsumer] CREATE user processed successfully");
         } catch (Exception e) {
-            log.error("Error creating user: {}", e.getMessage(), e);
+            log.error("[UserConsumer] Error creating user: {}", e.getMessage(), e);
             throw e;
         }
     }
 
     @RabbitListener(queues = RabbitMQConfig.USER_UPDATE_QUEUE)
     public void consumeUserUpdate(UserDTO userDTO) {
-        log.info("Received UPDATE user from queue: {}", userDTO);
+        log.info("[UserConsumer] Received UPDATE user from queue: {}", userDTO);
 
         try {
             updateUserUseCase.execute(userDTO);
+            log.info("[UserConsumer] UPDATE user processed successfully");
         } catch (Exception e) {
-            log.error("Error updating user: {}", e.getMessage(), e);
+            log.error("[UserConsumer] Error updating user: {}", e.getMessage(), e);
             throw e;
         }
     }
 
     @RabbitListener(queues = RabbitMQConfig.USER_DELETE_QUEUE)
     public void consumeUserDelete(UserDTO userDTO) {
-        log.info("Received DELETE user from queue: {}", userDTO);
+        log.info("[UserConsumer] Received DELETE user from queue: {}", userDTO);
 
         try {
             deleteUserUseCase.execute(userDTO.getId());
+            log.info("[UserConsumer] DELETE user processed successfully");
         } catch (Exception e) {
-            log.error("Error deleting user: {}", e.getMessage(), e);
+            log.error("[UserConsumer] Error deleting user: {}", e.getMessage(), e);
             throw e;
         }
     }

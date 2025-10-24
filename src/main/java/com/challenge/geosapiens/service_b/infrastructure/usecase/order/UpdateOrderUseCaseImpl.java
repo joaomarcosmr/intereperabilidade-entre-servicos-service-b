@@ -1,5 +1,6 @@
 package com.challenge.geosapiens.service_b.infrastructure.usecase.order;
 
+import com.challenge.geosapiens.service_b.application.exception.NotFoundException;
 import com.challenge.geosapiens.service_b.domain.entity.Order;
 import com.challenge.geosapiens.service_b.domain.repository.OrderRepository;
 import com.challenge.geosapiens.service_b.domain.usecase.order.UpdateOrderUseCase;
@@ -21,15 +22,18 @@ public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
     @Override
     @Transactional
     public Order execute(OrderDTO orderDTO) {
-        log.debug("Updating order with ID: {}", orderDTO.getId());
+        log.info("[UpdateOrderUseCaseImpl] Starting order update with ID: {}", orderDTO.getId());
 
         Order order = orderRepository.findById(orderDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderDTO.getId()));
+                .orElseThrow(() -> {
+                    log.error("[UpdateOrderUseCaseImpl] Order not found with ID: {}", orderDTO.getId());
+                    return new NotFoundException("Order not found with ID: " + orderDTO.getId());
+                });
 
         orderDTO.setId(order.getId());
         Order updatedOrder = orderRepository.save(orderMapper.toEntity(orderDTO));
 
-        log.info("Order updated successfully with ID: {}", updatedOrder.getId());
+        log.info("[UpdateOrderUseCaseImpl] Order updated successfully with ID: {}", updatedOrder.getId());
         return updatedOrder;
     }
 }

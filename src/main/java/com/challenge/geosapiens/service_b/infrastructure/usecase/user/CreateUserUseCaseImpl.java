@@ -1,5 +1,7 @@
 package com.challenge.geosapiens.service_b.infrastructure.usecase.user;
 
+import com.challenge.geosapiens.service_b.application.exception.AlreadyExistsException;
+import com.challenge.geosapiens.service_b.application.exception.NotFoundException;
 import com.challenge.geosapiens.service_b.domain.entity.User;
 import com.challenge.geosapiens.service_b.domain.repository.UserRepository;
 import com.challenge.geosapiens.service_b.domain.usecase.user.CreateUserUseCase;
@@ -21,7 +23,12 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
     @Override
     @Transactional
     public User execute(UserDTO userDTO) {
-        log.debug("Creating user with ID: {}", userDTO.getId());
+        log.info("[CreateUserUseCaseImpl] Starting user creation with ID: {}", userDTO.getId());
+
+        if(userRepository.existsById(userDTO.getId())) {
+            log.error("[CreateUserUseCaseImpl] User already exists with ID: {}", userDTO.getId());
+            throw new AlreadyExistsException("User already exists with ID: " + userDTO.getId());
+        }
 
         User user = new User();
         user.setId(userDTO.getId());
@@ -32,7 +39,12 @@ public class CreateUserUseCaseImpl implements CreateUserUseCase {
 
         User savedUser = userRepository.save(user);
 
-        log.info("User created successfully with ID: {}", savedUser.getId());
+        // Pra testar retry na fila e rollback dos dados salvos
+//        if(true){
+//            throw new Exception("testing retry...");
+//        }
+
+        log.info("[CreateUserUseCaseImpl] User created successfully with ID: {}", savedUser.getId());
         return savedUser;
     }
 }

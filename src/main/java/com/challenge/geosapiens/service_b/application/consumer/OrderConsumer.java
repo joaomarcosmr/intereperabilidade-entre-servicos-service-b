@@ -21,36 +21,39 @@ public class OrderConsumer {
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_CREATE_QUEUE)
     public void consumeOrderCreate(OrderDTO orderDTO) {
-        log.info("Received CREATE order from queue: {}", orderDTO);
+        log.info("[OrderConsumer] Received CREATE order from queue: {}", orderDTO);
 
         try {
             createOrderUseCase.execute(orderDTO);
+            log.info("[OrderConsumer] CREATE order processed successfully");
         } catch (Exception e) {
-            log.error("Error creating order: {}", e.getMessage(), e);
+            log.error("[OrderConsumer] Error creating order: {}", e.getMessage(), e);
             throw e;
         }
     }
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_UPDATE_QUEUE)
     public void consumeOrderUpdate(OrderDTO orderDTO) {
-        log.info("Received UPDATE order from queue: {}", orderDTO);
+        log.info("[OrderConsumer] Received UPDATE order from queue: {}", orderDTO);
 
         try {
             updateOrderUseCase.execute(orderDTO);
+            log.info("[OrderConsumer] UPDATE order processed successfully");
         } catch (Exception e) {
-            log.error("Error updating order: {}", e.getMessage(), e);
+            log.error("[OrderConsumer] Error updating order: {}", e.getMessage(), e);
             throw e;
         }
     }
 
     @RabbitListener(queues = RabbitMQConfig.ORDER_DELETE_QUEUE)
     public void consumeOrderDelete(OrderDTO orderDTO) {
-        log.info("Received DELETE order from queue: {}", orderDTO);
+        log.info("[OrderConsumer] Received DELETE order from queue: {}", orderDTO);
 
         try {
             deleteOrderUseCase.execute(orderDTO.getId());
+            log.info("[OrderConsumer] DELETE order processed successfully");
         } catch (Exception e) {
-            log.error("Error deleting order: {}", e.getMessage(), e);
+            log.error("[OrderConsumer] Error deleting order: {}", e.getMessage(), e);
             throw e;
         }
     }
