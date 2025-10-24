@@ -1,9 +1,9 @@
 package com.challenge.geosapiens.service_b.application.consumer;
 
 import com.challenge.geosapiens.service_b.application.config.RabbitMQConfig;
-import com.challenge.geosapiens.service_b.application.usecase.user.CreateUserUseCase;
-import com.challenge.geosapiens.service_b.application.usecase.user.DeleteUserUseCase;
-import com.challenge.geosapiens.service_b.application.usecase.user.UpdateUserUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.user.CreateUserUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.user.DeleteUserUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.user.UpdateUserUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,9 +1,9 @@
 package com.challenge.geosapiens.service_b.application.consumer;
 
 import com.challenge.geosapiens.service_b.application.config.RabbitMQConfig;
-import com.challenge.geosapiens.service_b.application.usecase.order.CreateOrderUseCase;
-import com.challenge.geosapiens.service_b.application.usecase.order.DeleteOrderUseCase;
-import com.challenge.geosapiens.service_b.application.usecase.order.UpdateOrderUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.order.CreateOrderUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.order.DeleteOrderUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.order.UpdateOrderUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

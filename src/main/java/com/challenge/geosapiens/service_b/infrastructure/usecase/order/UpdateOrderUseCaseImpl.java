@@ -1,7 +1,8 @@
-package com.challenge.geosapiens.service_b.application.usecase.order;
+package com.challenge.geosapiens.service_b.infrastructure.usecase.order;
 
 import com.challenge.geosapiens.service_b.domain.entity.Order;
 import com.challenge.geosapiens.service_b.domain.repository.OrderRepository;
+import com.challenge.geosapiens.service_b.domain.usecase.order.UpdateOrderUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
 import com.challenge.geosapiens.service_b.infrastructure.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
@@ -12,11 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UpdateOrderUseCase {
+public class UpdateOrderUseCaseImpl implements UpdateOrderUseCase {
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
 
+    @Override
     @Transactional
     public Order execute(OrderDTO orderDTO) {
         log.debug("Updating order with ID: {}", orderDTO.getId());

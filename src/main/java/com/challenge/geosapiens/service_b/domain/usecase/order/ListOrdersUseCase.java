@@ -1,4 +1,4 @@
-package com.challenge.geosapiens.service_b.domain.usecase;
+package com.challenge.geosapiens.service_b.domain.usecase.order;
 
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
 

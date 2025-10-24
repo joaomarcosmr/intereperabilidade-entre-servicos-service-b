@@ -1,7 +1,7 @@
-package com.challenge.geosapiens.service_b.infrastructure.usecase;
+package com.challenge.geosapiens.service_b.infrastructure.usecase.order;
 
 import com.challenge.geosapiens.service_b.domain.repository.OrderRepository;
-import com.challenge.geosapiens.service_b.domain.usecase.ListOrdersUseCase;
+import com.challenge.geosapiens.service_b.domain.usecase.order.ListOrdersUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
 import com.challenge.geosapiens.service_b.infrastructure.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
