@@ -24,8 +24,9 @@ public class Order {
     @Column
     private Double value;
 
-    @Column(name = "user_id")
-    private UUID userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "delivery_person_name")
     private String deliveryPersonName;
@@ -49,8 +50,4 @@ public class Order {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
 }

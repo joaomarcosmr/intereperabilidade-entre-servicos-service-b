@@ -1,5 +1,6 @@
 package com.challenge.geosapiens.service_b.application.controller;
 
+import com.challenge.geosapiens.service_b.domain.entity.Order;
 import com.challenge.geosapiens.service_b.domain.usecase.order.ListOrdersUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class OrderController {
     private final ListOrdersUseCase listOrdersUseCase;
 
     @GetMapping
-    public ResponseEntity<List<OrderDTO>> getOrders() {
+    public ResponseEntity<List<Order>> getOrders() {
         return ResponseEntity.ok(listOrdersUseCase.execute());
     }
 }

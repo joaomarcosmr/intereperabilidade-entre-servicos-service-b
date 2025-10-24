@@ -1,5 +1,6 @@
 package com.challenge.geosapiens.service_b.infrastructure.usecase.order;
 
+import com.challenge.geosapiens.service_b.domain.entity.Order;
 import com.challenge.geosapiens.service_b.domain.repository.OrderRepository;
 import com.challenge.geosapiens.service_b.domain.usecase.order.ListOrdersUseCase;
 import com.challenge.geosapiens.service_b.infrastructure.dto.OrderDTO;
@@ -17,9 +18,7 @@ public class ListOrdersUseCaseImpl implements ListOrdersUseCase {
     private final OrderMapper orderMapper;
 
     @Override
-    public List<OrderDTO> execute() {
-        return orderRepository.findAll().stream()
-                .map(orderMapper::toDTO)
-                .toList();
+    public List<Order> execute() {
+        return orderRepository.findAllOrders();
     }
 }
