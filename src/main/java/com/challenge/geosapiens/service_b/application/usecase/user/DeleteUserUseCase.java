@@ -6,6 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -14,7 +16,7 @@ public class DeleteUserUseCase {
     private final UserRepository userRepository;
 
     @Transactional
-    public void execute(Long userId) {
+    public void execute(UUID userId) {
         log.debug("Deleting user with ID: {}", userId);
 
         userRepository.deleteById(userId);

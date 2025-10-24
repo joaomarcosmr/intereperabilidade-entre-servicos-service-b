@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "orders")
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class Order {
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column
     private String description;
@@ -24,7 +25,7 @@ public class Order {
     private Double value;
 
     @Column(name = "user_id")
-    private Long userId;
+    private UUID userId;
 
     @Column(name = "delivery_person_name")
     private String deliveryPersonName;

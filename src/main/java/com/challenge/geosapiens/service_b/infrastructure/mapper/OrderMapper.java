@@ -15,5 +15,6 @@ public interface OrderMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateEntityFromDto(OrderDTO orderDTO, @MappingTarget Order order);
 
+    @Mapping(source = "userId", target = "userId")
     OrderDTO toDTO(Order order);
 }

@@ -5,15 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDTO implements Serializable {
-    private Long id;
+    private UUID id;
     private String description;
     private Double value;
-    private Long userId;
+    private UUID userId;
     private String deliveryPersonName;
     private String deliveryPersonPhone;
 }

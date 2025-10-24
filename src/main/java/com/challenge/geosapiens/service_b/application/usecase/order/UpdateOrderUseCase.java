@@ -24,8 +24,8 @@ public class UpdateOrderUseCase {
         Order order = orderRepository.findById(orderDTO.getId())
                 .orElseThrow(() -> new RuntimeException("Order not found with ID: " + orderDTO.getId()));
 
-        orderMapper.updateEntityFromDto(orderDTO, order);
-        Order updatedOrder = orderRepository.save(order);
+        orderDTO.setId(order.getId());
+        Order updatedOrder = orderRepository.save(orderMapper.toEntity(orderDTO));
 
         log.info("Order updated successfully with ID: {}", updatedOrder.getId());
         return updatedOrder;

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
-    private Long id;
+    private UUID id;
 
     @Column(nullable = false)
     private String name;

@@ -10,6 +10,14 @@ spring:
     port: 5672
     username: guest
     password: guest
+    listener:
+      simple:
+        missing-queues-fatal: false
+        retry:
+          enabled: true
+          initial-interval: 5000
+          max-attempts: 5
+          multiplier: 2.0
 
   datasource:
     url: jdbc:postgresql://localhost:5433/service_b_bd
