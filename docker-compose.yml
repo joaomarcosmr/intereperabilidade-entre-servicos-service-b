@@ -2,7 +2,7 @@ services:
   # PostgreSQL Database - Service B
   service_b_bd:
     image: postgres:15-alpine
-    container_name: service_b_bd
+    container_name: service-b
     environment:
       POSTGRES_DB: service_b_bd
       POSTGRES_USER: postgres
@@ -11,6 +11,8 @@ services:
       - "5433:5432"
     volumes:
       - service_b_data:/var/lib/postgresql/data
+    networks:
+      - geosapiens
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -22,15 +24,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: service_b_app
+    container_name: service-b
     environment:
       # Database Configuration
       SPRING_DATASOURCE_URL: jdbc:postgresql://service_b_bd:5432/service_b_bd
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       
-      # RabbitMQ Configuration (acessa o RabbitMQ do Service A via host)
-      SPRING_RABBITMQ_HOST: host.docker.internal
+      # RabbitMQ Configuration (acessa o RabbitMQ do Service A via rede)
+      SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
@@ -40,6 +42,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     ports:
       - "8081:8081"
+    networks:
+      - geosapiens
     depends_on:
       service_b_bd:
         condition: service_healthy
@@ -47,3 +51,7 @@ services:
 
 volumes:
   service_b_data:
+
+networks:
+  geosapiens:
+    external: true
